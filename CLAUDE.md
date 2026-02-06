@@ -48,7 +48,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Через маркетплейс (рекомендуется):
 ```bash
-/plugin marketplace add owner/1c-feature-dev
+/plugin marketplace add Diversus23/1c-feature-dev
 /plugin install 1c-feature-dev
 ```
 
@@ -61,5 +61,6 @@ cp rules/*.md ~/.claude/rules/
 
 ## Требования
 
-- Конфигурация 1С, выгруженная в файлы
-- MCP-сервер справки 1С (опционально, для проверки синтаксиса агентами)
+- Конфигурация 1С, выгруженная в файлы 1C:EDT
+- [EDT MCP Server](https://github.com/DitriXNew/EDT-MCP) — справка 1С, проверка синтаксиса, поиск по БСП и метаданным (устанавливается отдельно)
+- [mcp-bsl-platform-context](https://github.com/alkoleft/mcp-bsl-platform-context) — контекст платформы BSL: типы, методы, свойства глобального контекста (устанавливается отдельно)
