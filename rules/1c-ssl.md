@@ -1,26 +1,26 @@
-## Правила работы с БСП (SSL)
+## SSL (БСП / BSL Standard Library) Rules
 
-### Основной принцип
+### Core Principle
 
-**ВСЕГДА проверяй, есть ли готовое решение в БСП, прежде чем писать собственный код.** Написание кастомного кода при наличии решения в БСП — это технический долг.
+**ALWAYS check if SSL / БСП has an existing solution before writing custom code.** Writing custom code when SSL (БСП) provides a solution is technical debt.
 
-### Порядок действий при реализации новой функциональности
+### Workflow for New Functionality
 
-1. **Сначала поищи в БСП** — используй инструменты EDT MCP Server:
-   - `get_metadata_objects` — найти общие модули БСП по имени
-   - `get_metadata_details` — получить детали модуля (экспортные методы, реквизиты)
-   - `find_references` — найти примеры использования в кодовой базе
-2. **Проверь существующие паттерны** — через `find_references` найди как похожие задачи решены в проекте
-3. **Используй БСП если есть** — это протестировано, оптимизировано и поддерживается
-4. **Только потом пиши свой код** — и задокументируй почему БСП не подошло
+1. **Search SSL first** — use EDT MCP Server tools:
+   - `get_metadata_objects` — find SSL common modules by name
+   - `get_metadata_details` — get module details (export methods, attributes)
+   - `find_references` — find usage examples in the codebase
+2. **Check existing patterns** — use `find_references` to find how similar tasks are solved in the project
+3. **Use SSL if available** — it is tested, optimized, and maintained
+4. **Only then write custom code** — and document why SSL was not suitable
 
-### Ключевые модули БСП
+### Key SSL Modules
 
-- **Пользователи** — пользователи, роли, права доступа
-- **РаботаСФайлами** — хранение файлов и вложения
-- **УправлениеПечатью** — печатные формы
-- **ДлительныеОперации** — фоновые задания с прогрессом
-- **ВерсионированиеОбъектов** — история объектов
-- **РаботаСПочтовымиСообщениями** — отправка email
-- **ОбщегоНазначения** / **ОбщегоНазначенияКлиентСервер** — общие утилиты
-- **СтроковыеФункцииКлиентСервер** — строковые функции
+- `Пользователи` — users, roles, access rights
+- `РаботаСФайлами` — file storage and attachments
+- `УправлениеПечатью` — print forms
+- `ДлительныеОперации` — background jobs with progress
+- `ВерсионированиеОбъектов` — object versioning history
+- `РаботаСПочтовымиСообщениями` — email sending
+- `ОбщегоНазначения` / `ОбщегоНазначенияКлиентСервер` — common utilities
+- `СтроковыеФункцииКлиентСервер` — string functions
