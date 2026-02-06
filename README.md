@@ -72,6 +72,17 @@ flowchart TD
 | `1c-code-writer` | Написание кода по стандартам из `1c-rules.md` |
 | `1c-code-reviewer` | Проверка кода на баги и соответствие стандартам |
 
+## Требования
+
+- Конфигурация 1С, выгруженная в файлы 1C:EDT
+
+### MCP-серверы (устанавливаются отдельно)
+
+| Сервер | Назначение |
+|--------|------------|
+| [EDT MCP Server](https://github.com/DitriXNew/EDT-MCP) | Справка 1С: проверка синтаксиса, поиск по БСП и метаданным |
+| [mcp-bsl-platform-context](https://github.com/alkoleft/mcp-bsl-platform-context) | Контекст платформы BSL: типы, методы, свойства глобального контекста |
+
 ## Создано на базе:
 
 - [cursor_rules_1c](https://github.com/comol/cursor_rules_1c/) от comol.
