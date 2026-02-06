@@ -1,0 +1,9 @@
+{
+  "name": "1c-feature-dev",
+  "description": "Comprehensive feature development workflow with specialized agents for 1C:Enterprise codebase exploration, architecture design, and quality review",
+  "version": "1.0.0",
+  "author": {
+    "name": "Barilko Vitaly",
+    "email": "barilkovetaly@gmail.com"
+  }
+}
