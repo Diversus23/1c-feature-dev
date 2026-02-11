@@ -1,17 +1,12 @@
----
-name: 1c-query-optimization
-description: "Advanced query patterns for 1C: temporary tables, joins, DCS optimization. Use for complex queries beyond basic rules in 1c-rules.md."
----
+# 1C Query Optimization Rules (Advanced Patterns)
 
-# 1C Query Optimization Skill (Advanced Patterns)
-
-This skill provides **advanced** query patterns beyond basic rules in `1c-rules.md`.
+This rules provides **advanced** query patterns beyond basic rules in `1c-rules.md`.
 
 For basic query rules (formatting, aliases, parameters, no queries in loops) — see `1c-rules.md`.
 
 ## When to Use
 
-Invoke this skill when:
+Invoke this rules when:
 - Working with complex multi-step data processing
 - Optimizing joins and subqueries
 - Implementing DCS reports
@@ -24,11 +19,29 @@ Use temporary tables for:
 - Joining data from multiple sources
 - Reusing intermediate results
 
+### Use РАЗРЕШЕННЫЕ for SELECT
+
+```bsl
+// ❌ WRONG: No РАЗРЕШЕННЫЕ
+"ВЫБРАТЬ
+|	Контрагенты.Ссылка КАК Ссылка,
+|	Контрагенты.ИНН КАК ИНН
+|ИЗ
+|	Справочник.Контрагенты КАК Контрагенты"
+
+// ✅ PREFERRED: Use РАЗРЕШЕННЫЕ for SELECT
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
+|	Контрагенты.Ссылка КАК Ссылка,
+|	Контрагенты.ИНН КАК ИНН
+|ИЗ
+|	Справочник.Контрагенты КАК Контрагенты
+```
+
 ### Join vs Subquery
 
 ```bsl
 // ✅ PREFERRED: Join (usually faster)
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Заказы.Ссылка КАК Заказ,
 |	Контрагенты.ИНН КАК ИНН
 |ИЗ
@@ -37,9 +50,9 @@ Use temporary tables for:
 |		ПО Заказы.Контрагент = Контрагенты.Ссылка"
 
 // ⚠️ AVOID: Subquery in SELECT (N+1 problem)
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Заказы.Ссылка КАК Заказ,
-|	(ВЫБРАТЬ К.ИНН ИЗ Справочник.Контрагенты КАК К 
+|	(ВЫБРАТЬ К.ИНН ИЗ Справочник.Контрагенты КАК К
 |	 ГДЕ К.Ссылка = Заказы.Контрагент) КАК ИНН
 |ИЗ
 |	Документ.ЗаказКлиента КАК Заказы"
@@ -49,14 +62,14 @@ Use temporary tables for:
 
 ```bsl
 // ❌ SLOW: Subquery with aggregation
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Номенклатура.Ссылка,
 |	(ВЫБРАТЬ СУММА(Остатки.Количество) ...) КАК Остаток
 |ИЗ
 |	Справочник.Номенклатура КАК Номенклатура"
 
 // ✅ FAST: Join with pre-aggregated data
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Номенклатура.Ссылка КАК Номенклатура,
 |	ЕСТЬNULL(Остатки.КоличествоОстаток, 0) КАК Остаток
 |ИЗ
@@ -71,7 +84,7 @@ Use virtual table parameters instead of WHERE for better performance:
 
 ```bsl
 // ✅ CORRECT: Uses virtual table parameters (fast)
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Остатки.Номенклатура КАК Номенклатура,
 |	Остатки.КоличествоОстаток КАК Остаток
 |ИЗ
@@ -80,7 +93,7 @@ Use virtual table parameters instead of WHERE for better performance:
 |		Номенклатура В (&СписокНоменклатуры)) КАК Остатки"
 
 // ❌ WRONG: Virtual table then filter (slow)
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Остатки.Номенклатура КАК Номенклатура,
 |	Остатки.КоличествоОстаток КАК Остаток
 |ИЗ
@@ -116,19 +129,19 @@ Avoid dereferencing composite type reference fields directly — the system crea
 
 ```bsl
 // ❌ SLOW: Dereferences ALL registrar types (can be hundreds)
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	ТоварыНаСкладах.Регистратор.Дата КАК ДатаДокумента
 |ИЗ
 |	РегистрНакопления.ТоварыНаСкладах КАК ТоварыНаСкладах"
 
 // ✅ FAST: Use ВЫРАЗИТЬ to specify exact type
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	ВЫРАЗИТЬ(ТоварыНаСкладах.Регистратор КАК Документ.ПоступлениеТоваровУслуг).Дата КАК ДатаДокумента
 |ИЗ
 |	РегистрНакопления.ТоварыНаСкладах КАК ТоварыНаСкладах"
 
 // ✅ For multiple known types, use ВЫБОР/КОГДА
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	ВЫБОР
 |		КОГДА ТоварыНаСкладах.Регистратор ССЫЛКА Документ.ПоступлениеТоваровУслуг
 |			ТОГДА ВЫРАЗИТЬ(ТоварыНаСкладах.Регистратор КАК Документ.ПоступлениеТоваровУслуг).Дата
@@ -145,13 +158,13 @@ When you only need text representation, use `ПРЕДСТАВЛЕНИЕ()` to av
 
 ```bsl
 // ❌ Creates additional subquery for Справочник.Склады
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	ТоварыНаСкладах.Склад.Наименование
 |ИЗ
 |	РегистрНакопления.ТоварыНаСкладах КАК ТоварыНаСкладах"
 
 // ✅ Optimal: No extra join
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	ПРЕДСТАВЛЕНИЕ(ТоварыНаСкладах.Склад) КАК СкладПредставление
 |ИЗ
 |	РегистрНакопления.ТоварыНаСкладах КАК ТоварыНаСкладах"
@@ -227,7 +240,7 @@ Extract virtual table results to temporary table before joining:
 
 ```bsl
 // ❌ SLOW: OR prevents index usage
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Товары.Ссылка
 |ИЗ
 |	Справочник.Номенклатура КАК Товары
@@ -236,7 +249,7 @@ Extract virtual table results to temporary table before joining:
 |	ИЛИ Товары.Код = &Код"
 
 // ✅ FAST: Two indexed queries with UNION
-"ВЫБРАТЬ
+"ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Товары.Ссылка
 |ИЗ
 |	Справочник.Номенклатура КАК Товары
@@ -245,7 +258,7 @@ Extract virtual table results to temporary table before joining:
 |
 |ОБЪЕДИНИТЬ ВСЕ
 |
-|ВЫБРАТЬ
+|ВЫБРАТЬ РАЗРЕШЕННЫЕ
 |	Товары.Ссылка
 |ИЗ
 |	Справочник.Номенклатура КАК Товары
