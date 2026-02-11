@@ -42,3 +42,8 @@
 ### Formatting
 - Do not break a line if only a single variable would remain on the new line.
 - Add blank lines before and after code inside condition and loop blocks for readability.
+
+### Other Rules
+- Use `common-rules.md` rules for common rules
+- For queries, use `1c-query-optimization.md` rules
+- Use `1c-ssl.md` rules for SSL (БСП) usage for functions and procedures that require it
