@@ -38,6 +38,7 @@
 - Use `ЗаполнитьЗначенияСвойств()` for bulk property assignment.
 - For lookups in large collections, use `Соответствие` (O(1)) instead of array iteration (O(n)).
 - Document public procedures and functions: purpose, parameters, return value.
+- Don't use letter "ё" or "Ё", use "е" or "Е" instead.
 
 ### Formatting
 - Do not break a line if only a single variable would remain on the new line.
