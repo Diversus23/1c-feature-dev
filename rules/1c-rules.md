@@ -47,3 +47,4 @@
 - Use `common-rules.md` rules for common rules
 - For queries, use `1c-query-optimization.md` rules
 - Use `1c-ssl.md` rules for SSL (БСП) usage for functions and procedures that require it
+- Use `1c-edt-metadata.md` rules for working with 1C metadata files in EDT format (`.mdo`, `.form`, and other XML files) — UUID generation, structure of attributes
