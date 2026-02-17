@@ -89,4 +89,3 @@
 | Сервер | Категории | Ссылка |
 |--------|-----------|--------|
 | EDT MCP Server | Навигация по метаданным, Анализ кода BSL, Валидация, Управление проектом, Отладка и запуск | [DitriXNew/EDT-MCP](https://github.com/DitriXNew/EDT-MCP) |
-| mcp-bsl-platform-context | Справка платформы | [alkoleft/mcp-bsl-platform-context](https://github.com/alkoleft/mcp-bsl-platform-context) |
