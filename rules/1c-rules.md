@@ -44,6 +44,10 @@
 - Do not break a line if only a single variable would remain on the new line.
 - Add blank lines before and after code inside condition and loop blocks for readability.
 
+### Metadata Conventions
+
+- Metadata objects and attributes prefixed with `Удалить` (e.g. `УдалитьКонтрагент`, `УдалитьАдрес`) are deprecated stubs kept for backward compatibility. Treat them as non-existent: do not read, write, reference, or extend them in new code.
+
 ### Other Rules
 - Use `common-rules.md` rules for common rules
 - For queries, use `1c-query-optimization.md` rules
