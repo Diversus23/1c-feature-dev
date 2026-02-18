@@ -18,6 +18,7 @@
 ```
 - Do not use `Сообщить()`. Use `ОбщегоНазначения.СообщитьПользователю` (server-side) or `ОбщегоНазначенияКлиент.СообщитьПользователю` (client-side) instead.
 - Use a 120-character line limit where the line can be correctly wrapped.
+- Keep procedures/functions under 200 lines; if over 100, consider decomposition. When adding new code to a common module, prefer creating a new focused module if the existing one already exceeds ~3000 lines. This applies to new code only — do not refactor existing large modules unless explicitly requested.
 - In form modules, minimize client-server round trips.
 - In form modules, methods can have the following compilation directives: `&НаКлиенте`, `&НаСервере` (with form context), `&НаСервереБезКонтекста` (without form context — preferred, as it does not transfer form context to the server), `&НаКлиентеНаСервереБезКонтекста`
 - In form modules, prefer `Асинх` over `ОписаниеОповещения` where an async equivalent method exists.
