@@ -27,9 +27,20 @@
 - Avoid queries inside loops. Use batch queries and temporary tables instead.
 - Cache repeated calculations in loops (catalog lookups, attribute retrieval, same-algorithm computations) using `Соответствие` for performance optimization.
 - Do not access reference attributes via dot notation — this fetches the entire object from the database. For example: `Контрагент.ИНН` — incorrect (if `Контрагент` is a reference), `ОбщегоНазначения.ЗначениеРеквизитаОбъекта(Контрагент, "ИНН")` — correct. Available methods: `ОбщегоНазначения.ЗначениеРеквизитаОбъекта`, `ОбщегоНазначения.ЗначениеРеквизитовОбъекта`, `ОбщегоНазначения.ЗначениеРеквизитаОбъектов`
+- Do not build user-facing strings with concatenation (`+`). Use `СтрШаблон()` with `НСтр()` and extract the result into a variable before passing it as an argument. This improves readability, localizability, and keeps function calls clean.
+```bsl
+// WRONG: concatenation inside a function call argument
+Результат = НовыйРезультатВыполнения(
+    Истина, "Записано для " + Количество + " пользователей" + ТекстОшибки);
+
+// CORRECT: СтрШаблон + НСтр, extracted to a variable
+ТекстРезультата = СтрШаблон(НСтр("ru = 'Записано для %1 пользователей %2'"), Количество, ТекстОшибки);
+Результат = НовыйРезультатВыполнения(Истина, ТекстРезультата);
+```
 - Do not use ternary operators: `ИНН = ?(Контрагент.ИНН <> "", Контрагент.ИНН, "Не указан")`
 - Do not use Hungarian notation for variables. Example: `МассивКонтрагентов` — incorrect, `Контрагенты` — correct.
 - Do not use 1C global context names for variables (`Документы`, `Справочники`, `Пользователи`, `Регистры`, `Метаданные`, `Константы`, etc.). This creates name collisions and reduces readability.
+- Do not name procedures, functions, or variables with names that match 1C built-in global context methods and functions (`Выполнить`, `ЗначениеЗаполнено`, `Тип`, `Строка`, `Число`, `Дата`, `Формат`, `Мин`, `Макс`, `Цел`, `Окр`, `Вычислить`, `ОписаниеОшибки`, `ПолучитьФорму`, `Подключить`, etc.). This shadows built-in functions, causes EDT errors, and produces unpredictable behavior. If a domain concept matches a built-in name, add a qualifying suffix — e.g. `ВыполнитьШаг` instead of `Выполнить`.
 - Do not use `Попытка...Исключение` for database read/write operations without justified transaction management needs.
 - Do not use `ЗаписьЖурналаРегистрации()` unless explicitly requested by the user.
 - Do not compare boolean values to `Истина`/`Ложь` — use boolean expressions directly. Example: `Если Активен Тогда` instead of `Если Активен = Истина Тогда`.
