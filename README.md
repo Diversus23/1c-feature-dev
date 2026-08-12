@@ -1,5 +1,7 @@
 # 1C:Предприятие - AI Feature Development Plugin
 
+[![Skillselion Top 25](https://skillselion.com/badge/marketplace/Diversus23/1c-feature-dev.svg?award=1)](https://skillselion.com/marketplace/Diversus23/1c-feature-dev)
+
 Плагин для Claude Code, помогающий дорабатывать существующие конфигурации 1С. Анализирует кодовую базу, проектирует архитектуру, пишет код по стандартам и проверяет качество — через адаптивный воркфлоу с параллельными агентами. Количество агентов и глубина анализа масштабируются в зависимости от сложности задачи.
 
 ## Воркфлоу
